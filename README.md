@@ -3,4 +3,4 @@ Bacon ipsum dolor amet hamburger biltong strip steak chuck, pig fatback ground r
 
 ## Inspiration
 - Amazon Web Services
-- Cognito
+- Cognito (Ej integrerat med LinkedIn än...)
