@@ -1,6 +1,6 @@
 # iRec
 Bacon ipsum dolor amet hamburger biltong strip steak chuck, pig fatback ground round tail beef. 
 
-## Idéer
+## Inspiration
 - Amazon Web Services
 - Cognito
