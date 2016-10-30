@@ -22,7 +22,7 @@ func (db *DB) GetPositions() ([]*Position, error) {
 	var id int
 	for rows.Next() {
 		ps := new(Position)
-		err = rows.Scan(&ps.Id, id, &ps.Title, &ps.Body, &ps.Reward)
+		err = rows.Scan(&ps.Id, &id, &ps.Title, &ps.Body, &ps.Reward)
 		if err != nil {
 			return nil, err
 		}
@@ -52,7 +52,7 @@ func (db *DB) GetPosition(positionid int) (*Position, error) {
 	var id int
 
 	for rows.Next() {
-		err = rows.Scan(&ps.Id, id, &ps.Title, &ps.Body, &ps.Reward)
+		err = rows.Scan(&ps.Id, &id, &ps.Title, &ps.Body, &ps.Reward)
 		if err != nil {
 			return nil, err
 		}

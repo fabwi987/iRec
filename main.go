@@ -31,7 +31,7 @@ func main() {
 	router.GET("/user/:id", env.GetUserEndpoint)
 	router.GET("/positions", env.GetPositionsEndpoint)
 	router.GET("/position/:id", env.GetPositionEndpoint)
-	router.GET("/recommendation", env.GetRecommendationsEndpoint)
+	router.GET("/recommendations", env.GetRecommendationsEndpoint)
 	router.GET("/recommendation/:id", env.GetRecommendationEndpoint)
 	router.Run(":3000")
 

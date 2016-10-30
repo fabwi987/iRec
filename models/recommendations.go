@@ -11,7 +11,7 @@ type Recommendation struct {
 
 func (db *DB) GetRecommendations() ([]*Recommendation, error) {
 
-	rows, err := db.Query("SELECT * FROM stocks")
+	rows, err := db.Query("SELECT * FROM recommendations")
 	if err != nil {
 		return nil, err
 	}
@@ -24,7 +24,7 @@ func (db *DB) GetRecommendations() ([]*Recommendation, error) {
 
 	for rows.Next() {
 		rec := new(Recommendation)
-		err = rows.Scan(rec.ID, idPos, idUsr, idUsr2)
+		err = rows.Scan(&rec.ID, &idPos, &idUsr, &idUsr2)
 		if err != nil {
 			return nil, err
 		}
@@ -43,6 +43,8 @@ func (db *DB) GetRecommendations() ([]*Recommendation, error) {
 		if err != nil {
 			return nil, err
 		}
+
+		recs = append(recs, rec)
 
 	}
 
@@ -66,7 +68,7 @@ func (db *DB) GetRecommendation(recommendationid int) (*Recommendation, error) {
 
 	for rows.Next() {
 
-		err = rows.Scan(rec.ID, idPos, idUsr, idUsr2)
+		err = rows.Scan(&rec.ID, &idPos, &idUsr, &idUsr2)
 		if err != nil {
 			return nil, err
 		}
