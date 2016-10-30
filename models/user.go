@@ -2,6 +2,7 @@ package models
 
 import _ "github.com/go-sql-driver/mysql"
 
+//User is the representation of a user
 type User struct {
 	Id    int
 	Type  int
@@ -10,6 +11,7 @@ type User struct {
 	Phone string
 }
 
+//GetUsers return all users from the database
 func (db *DB) GetUsers() ([]*User, error) {
 
 	rows, err := db.Query("SELECT * FROM users")
@@ -35,6 +37,7 @@ func (db *DB) GetUsers() ([]*User, error) {
 	return usrs, nil
 }
 
+//GetUser returns a single user based on it's id
 func (db *DB) GetUser(userid int) (*User, error) {
 
 	stmt, err := db.Prepare("SELECT * FROM users WHERE idusers = ?")

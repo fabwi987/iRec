@@ -2,6 +2,7 @@ package models
 
 import _ "github.com/go-sql-driver/mysql"
 
+//Recommendation is the representation of a recommendation
 type Recommendation struct {
 	ID         int
 	IdPosition *Position
@@ -9,6 +10,7 @@ type Recommendation struct {
 	IdUser2    *User
 }
 
+//GetRecommendations return all recommendations from the database
 func (db *DB) GetRecommendations() ([]*Recommendation, error) {
 
 	rows, err := db.Query("SELECT * FROM recommendations")
@@ -55,6 +57,7 @@ func (db *DB) GetRecommendations() ([]*Recommendation, error) {
 	return recs, nil
 }
 
+//GetRecommendation returns a single recommendation based on it's id
 func (db *DB) GetRecommendation(recommendationid int) (*Recommendation, error) {
 
 	stmt, err := db.Prepare("SELECT * FROM recommendations WHERE idrecommendations = ?")
