@@ -13,6 +13,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+//Env is an environmental struct
 type Env struct {
 	db models.Datastore
 }
@@ -37,6 +38,7 @@ func main() {
 
 }
 
+//GetUsersEndpoint return all users
 func (env *Env) GetUsersEndpoint(c *gin.Context) {
 	users, err := env.db.GetUsers()
 	if err != nil {
@@ -45,6 +47,7 @@ func (env *Env) GetUsersEndpoint(c *gin.Context) {
 	json.NewEncoder(c.Writer).Encode(users)
 }
 
+//GetUserEndpoint return a single user from it's id
 func (env *Env) GetUserEndpoint(c *gin.Context) {
 	id := c.Param("id")
 	intid, err := strconv.Atoi(id)
@@ -58,6 +61,7 @@ func (env *Env) GetUserEndpoint(c *gin.Context) {
 	json.NewEncoder(c.Writer).Encode(usr)
 }
 
+//GetPositionsEndpoint return all positions
 func (env *Env) GetPositionsEndpoint(c *gin.Context) {
 	users, err := env.db.GetPositions()
 	if err != nil {
@@ -66,6 +70,7 @@ func (env *Env) GetPositionsEndpoint(c *gin.Context) {
 	json.NewEncoder(c.Writer).Encode(users)
 }
 
+//GetPositionEndpoint returns a single position fomr it's id
 func (env *Env) GetPositionEndpoint(c *gin.Context) {
 	id := c.Param("id")
 	intid, err := strconv.Atoi(id)
@@ -79,6 +84,7 @@ func (env *Env) GetPositionEndpoint(c *gin.Context) {
 	json.NewEncoder(c.Writer).Encode(usr)
 }
 
+//GetRecommendationsEndpoint returns all recommendations
 func (env *Env) GetRecommendationsEndpoint(c *gin.Context) {
 	users, err := env.db.GetRecommendations()
 	if err != nil {
@@ -87,6 +93,7 @@ func (env *Env) GetRecommendationsEndpoint(c *gin.Context) {
 	json.NewEncoder(c.Writer).Encode(users)
 }
 
+//GetRecommendationEndpoint returns a single recommendation from it's id
 func (env *Env) GetRecommendationEndpoint(c *gin.Context) {
 	id := c.Param("id")
 	intid, err := strconv.Atoi(id)
