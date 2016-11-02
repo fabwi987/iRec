@@ -1,6 +1,10 @@
 package models
 
-import _ "github.com/go-sql-driver/mysql"
+import (
+	"fmt"
+
+	_ "github.com/go-sql-driver/mysql"
+)
 
 //Recommendation is the representation of a recommendation
 type Recommendation struct {
@@ -98,4 +102,25 @@ func (db *DB) GetRecommendation(recommendationid int) (*Recommendation, error) {
 	}
 
 	return rec, nil
+}
+
+//CreateRecommendation creates a new recommendation inte the database
+func (db *DB) CreateRecommendation(Position int, User int, Reffered User) error {
+
+	stmt, err := db.Prepare("INSERT recommendations SET idposition=?,iduser=?,iduser2=?")
+	if err != nil {
+		return err
+	}
+
+	UserID, err := db.CreateUser(&Reffered)
+	if err != nil {
+		return err
+	}
+
+	res, err := stmt.Exec(Position, User, UserID)
+	if err != nil {
+		return err
+	}
+	fmt.Println(res)
+	return nil
 }

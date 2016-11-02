@@ -60,3 +60,22 @@ func (db *DB) GetUser(userid int) (*User, error) {
 	return us, nil
 
 }
+
+//CreateUser creates a new user inte the database
+func (db *DB) CreateUser(NewUser *User) (int64, error) {
+
+	stmt, err := db.Prepare("INSERT users SET usertype=?,name=?,mail=?,phone=?")
+	if err != nil {
+		return 0, err
+	}
+
+	res, err := stmt.Exec(NewUser.Type, NewUser.Name, NewUser.Mail, NewUser.Phone)
+	if err != nil {
+		return 0, err
+	}
+	LastID, err := res.LastInsertId()
+	if err != nil {
+		return 0, err
+	}
+	return LastID, nil
+}

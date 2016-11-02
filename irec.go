@@ -1,4 +1,4 @@
-package main
+package irec
 
 import (
 	"log"
@@ -7,6 +7,8 @@ import (
 	"encoding/json"
 
 	"net/http"
+
+	"fmt"
 
 	"github.com/fabwi987/iRec/models"
 	"github.com/gin-gonic/gin"
@@ -18,7 +20,7 @@ type Env struct {
 	db models.Datastore
 }
 
-func main() {
+func Run() {
 
 	db, err := models.NewDatabase("root:trustno1@/test")
 	if err != nil {
@@ -34,6 +36,9 @@ func main() {
 	router.GET("/position/:id", env.GetPositionEndpoint)
 	router.GET("/recommendations", env.GetRecommendationsEndpoint)
 	router.GET("/recommendation/:id", env.GetRecommendationEndpoint)
+
+	router.POST("/user", env.CreateUserEndpoint)
+
 	router.Run(":3000")
 
 }
@@ -105,4 +110,51 @@ func (env *Env) GetRecommendationEndpoint(c *gin.Context) {
 		c.AbortWithError(http.StatusInternalServerError, err)
 	}
 	json.NewEncoder(c.Writer).Encode(usr)
+}
+
+//CreateUserEndpoint creates a user and sends it to the database
+func (env *Env) CreateUserEndpoint(c *gin.Context) {
+	intid, err := strconv.Atoi(c.PostForm("Type"))
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+	}
+	NewUser := models.User{
+		Id:    0,
+		Type:  intid,
+		Name:  c.PostForm("Name"),
+		Mail:  c.PostForm("Mail"),
+		Phone: c.PostForm("Phone"),
+	}
+
+	userid, err := env.db.CreateUser(&NewUser)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+	}
+	fmt.Println(userid)
+}
+
+//CreatePositionEndpoint creates a position and sends it to the database
+func (env *Env) CreatePositionEndpoint(c *gin.Context) {
+	userid, err := strconv.Atoi(c.PostForm("Userid"))
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+	}
+	usr, err := env.db.GetUser(userid)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+	}
+
+	NewPosition := models.Position{
+		Id:     0,
+		Userid: usr,
+		Title:  c.PostForm("Title"),
+		Body:   c.PostForm("Body"),
+		Reward: c.PostForm("Reward"),
+	}
+
+	err = env.db.CreatePosition(&NewPosition)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+	}
+
 }

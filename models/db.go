@@ -14,6 +14,9 @@ type Datastore interface {
 	GetPosition(positionid int) (*Position, error)
 	GetRecommendations() ([]*Recommendation, error)
 	GetRecommendation(recommendationid int) (*Recommendation, error)
+	CreateUser(NewUser *User) (int64, error)
+	CreatePosition(NewPosition *Position) error
+	CreateRecommendation(Position int, User int, Reffered User) error
 }
 
 //DB hold the db connection
