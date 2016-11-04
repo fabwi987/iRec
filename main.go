@@ -1,4 +1,4 @@
-package irec
+package main
 
 import (
 	"log"
@@ -20,16 +20,16 @@ type Env struct {
 	db models.Datastore
 }
 
-func Run() {
+func main() {
 
-	db, err := models.NewDatabase("root:Trustno1@tcp(104.199.54.160:3306)/ire01")
+	db, err := models.NewDatabase("root:trustno1@/test")
 	if err != nil {
 		log.Panic(err)
 	}
 
 	env := &Env{db}
 
-	router := gin.New()
+	router := gin.Default()
 	router.GET("/users", env.GetUsersEndpoint)
 	router.GET("/user/:id", env.GetUserEndpoint)
 	router.GET("/positions", env.GetPositionsEndpoint)
@@ -38,9 +38,7 @@ func Run() {
 	router.GET("/recommendation/:id", env.GetRecommendationEndpoint)
 
 	router.POST("/user", env.CreateUserEndpoint)
-
-	http.Handle("/", router)
-	//router.Run(":3000")
+	router.Run(":8000")
 
 }
 
