@@ -22,14 +22,14 @@ type Env struct {
 
 func Run() {
 
-	db, err := models.NewDatabase("root:trustno1@/test")
+	db, err := models.NewDatabase("root:Trustno1@tcp(104.199.54.160:3306)/ire01")
 	if err != nil {
 		log.Panic(err)
 	}
 
 	env := &Env{db}
 
-	router := gin.Default()
+	router := gin.New()
 	router.GET("/users", env.GetUsersEndpoint)
 	router.GET("/user/:id", env.GetUserEndpoint)
 	router.GET("/positions", env.GetPositionsEndpoint)
@@ -39,12 +39,14 @@ func Run() {
 
 	router.POST("/user", env.CreateUserEndpoint)
 
-	router.Run(":3000")
+	http.Handle("/", router)
+	//router.Run(":3000")
 
 }
 
 //GetUsersEndpoint return all users
 func (env *Env) GetUsersEndpoint(c *gin.Context) {
+
 	users, err := env.db.GetUsers()
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
