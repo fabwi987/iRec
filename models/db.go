@@ -17,6 +17,8 @@ type Datastore interface {
 	CreateUser(NewUser *User) (int64, error)
 	CreatePosition(NewPosition *Position) error
 	CreateRecommendation(Position int, User int, Reffered User) error
+	GetPositionRecommendations(positionid int) (*Recommendation, error)
+	GetUserRecommendations(userid int) (*Recommendation, error)
 }
 
 //DB hold the db connection

@@ -104,6 +104,92 @@ func (db *DB) GetRecommendation(recommendationid int) (*Recommendation, error) {
 	return rec, nil
 }
 
+//GetPositionRecommendations returns all recommendations based on a position id
+func (db *DB) GetPositionRecommendations(positionid int) (*Recommendation, error) {
+
+	stmt, err := db.Prepare("SELECT * FROM recommendations WHERE idposition = ?")
+	defer stmt.Close()
+	rows, err := stmt.Query(positionid)
+	defer rows.Close()
+	rec := new(Recommendation)
+	var idPos int
+	var idUsr int
+	var idUsr2 int
+
+	for rows.Next() {
+
+		err = rows.Scan(&rec.ID, &idPos, &idUsr, &idUsr2)
+		if err != nil {
+			return nil, err
+		}
+
+		rec.IdPosition, err = db.GetPosition(idPos)
+		if err != nil {
+			return nil, err
+		}
+
+		rec.IdUser, err = db.GetUser(idUsr)
+		if err != nil {
+			return nil, err
+		}
+
+		rec.IdUser2, err = db.GetUser(idUsr2)
+		if err != nil {
+			return nil, err
+		}
+
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return rec, nil
+}
+
+//GetUserRecommendations returns a single recommendation based on it's id
+func (db *DB) GetUserRecommendations(userid int) (*Recommendation, error) {
+
+	stmt, err := db.Prepare("SELECT * FROM recommendations WHERE iduser = ?")
+	defer stmt.Close()
+	rows, err := stmt.Query(userid)
+	defer rows.Close()
+	rec := new(Recommendation)
+	var idPos int
+	var idUsr int
+	var idUsr2 int
+
+	for rows.Next() {
+
+		err = rows.Scan(&rec.ID, &idPos, &idUsr, &idUsr2)
+		if err != nil {
+			return nil, err
+		}
+
+		rec.IdPosition, err = db.GetPosition(idPos)
+		if err != nil {
+			return nil, err
+		}
+
+		rec.IdUser, err = db.GetUser(idUsr)
+		if err != nil {
+			return nil, err
+		}
+
+		rec.IdUser2, err = db.GetUser(idUsr2)
+		if err != nil {
+			return nil, err
+		}
+
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return rec, nil
+}
+
 //CreateRecommendation creates a new recommendation inte the database
 func (db *DB) CreateRecommendation(Position int, User int, Reffered User) error {
 
