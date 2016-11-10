@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 	"strconv"
 
 	"encoding/json"
@@ -31,6 +32,10 @@ func main() {
 	env := &Env{db}
 
 	router := gin.Default()
+	
+	router.LoadHTMLGlob("templates/*.html")
+
+	router.GET("/start", Startfunc)
 	router.GET("/users", env.GetUsersEndpoint)
 	router.GET("/user/:id", env.GetUserEndpoint)
 	router.GET("/positions", env.GetPositionsEndpoint)
@@ -41,8 +46,19 @@ func main() {
 	//router.GET("/recommendations/usr/:id", env.GetUserRecommendationsEndpoint)
 
 	router.POST("/user", env.CreateUserEndpoint)
-	router.Run(":8080")
 
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		port = "8080"
+	}
+	router.Run(":"+port)
+
+}
+
+//Startfunc displays a welcome message
+func Startfunc (c *gin.Context){
+		c.HTML(http.StatusOK, "full.html", nil)
 }
 
 //GetUsersEndpoint return all users
