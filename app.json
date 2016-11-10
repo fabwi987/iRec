@@ -1,6 +1,6 @@
 {
-  "name": "iRec",
-  "description": "Rest Back-End for iRec",
+  "name": "Start on Heroku: Go",
+  "description": "Go Getting Started Example App",
   "keywords": [
     "getting-started",
     "go",
@@ -8,7 +8,7 @@
     "example"
   ],
   "image": "heroku/go:1.6",
-  "mount_dir": "src/github.com/fabwi987/iRec",
-  "website": "http://github.com/fabwi987/iRec",
-  "repository": "http://github.com/fabwi987/iRec"
+  "mount_dir": "src/github.com/heroku/go-getting-started",
+  "website": "http://github.com/heroku/go-getting-started",
+  "repository": "http://github.com/heroku/go-getting-started"
 }

@@ -1,1 +1,1 @@
-web: irec
+web: iRec
